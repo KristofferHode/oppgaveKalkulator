@@ -22,10 +22,10 @@ class Program
         return a + b;
     }
 
-    static int sum(int a, int b, int c, int d)
+    /*static int sum(int a, int b, int c, int d)
     {
         return a - b + c - d;
-    }
+    }*/
 
 
     class Kalkulator
@@ -61,43 +61,43 @@ class Program
             if (inputI == 1)
             {
                 double sum = a + b;
-                Console.WriteLine("Result = " + sum);
+                Console.WriteLine("Result multiplication = " + sum);
             }
 
             if (inputI == 2)
             {
                 double sum = a - b;
-                Console.WriteLine("Result = " + sum);
+                Console.WriteLine("Result subtraction = " + sum);
             }
 
             if (inputI == 3)
             {
                 double sum = a * b;
-                Console.WriteLine("result = " + sum);
+                Console.WriteLine("Result multiplication = " + sum);
             }
 
             if (inputI == 4)
-            {
-                if (b == 0)
-                    Console.WriteLine("Cant divide by zero");
-            }
-            else
-            {
-                double sum = a / b;
-                Console.WriteLine("Result = " + sum);
-            }
+                {
+                    if (b == 0)
+                        Console.WriteLine("Cant divide by zero");
+                }
+                    else
+                {
+                    double sum = a / b;
+                    Console.WriteLine("Result dividation(?) = " + sum);
+                }
 
             if (inputII == 1)
             {
-                Console.WriteLine("You are mathing two numbers" + sum(a, b));
+                Console.WriteLine("You are mathing two numbers: " + sum(a, b));
             }
             if (inputII == 2)
             {
-                Console.WriteLine("You are mathing three numbers" + sum(a, b, c));
+                Console.WriteLine("You are mathing three numbers: " + sum(a, b, c));
             }
             if (inputII == 3)
             {
-                Console.WriteLine ("You are mathing four numbers" + sum(a, b, c, d));
+                Console.WriteLine ("You are mathing four numbers: " + sum(a, b, c, d));
             }
 
             

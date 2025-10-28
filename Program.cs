@@ -1,110 +1,117 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
+using System.Linq.Expressions;
 using System.Reflection;
 using Microsoft.VisualBasic;
 
 namespace oppgaveKalkulator;
 
 class Program
-{//overloads
-    static double sum(double a, double b, double c, double d)
-    {
-        return a + b + c + d;
-        
-    }
+{   //overloads
+    //Pluss regnestykke
+    static double add(double a, double b) => a + b;
+    static double add(double a, double b, double c) => a + b + c;
+    static double add(double a, double b, double c, double d) => a + b + c + d;
 
-    static double sum(double a, double b, double c)
-    {
-        return a + b + c;
-    }
-    static double sum(double a, double b)
-    {
-        return a + b;
-    }
+    //Minus regnestykke
+    static double subtract(double a, double b) => a - b;
+    static double subtract(double a, double b, double c) => a - b - c;
+    static double subtract(double a, double b, double c, double d) => a - b - c - d;
 
-    /*static int sum(int a, int b, int c, int d)
+    //Gangestykke
+    static double multiply(double a, double b) => a * b;
+    static double multiply(double a, double b, double c) => a * b * c;
+    static double multiply(double a, double b, double c, double d) => a * b * c * d;
+
+    //deleStykke
+    static double divide(double a, double b, double c, double d)
     {
-        return a - b + c - d;
-    }*/
+        if (b == 0 || c == 0 || d == 0) throw new DivideByZeroException("Cant divide by zero");
+        return a / b / c / d;
+    }
+    static double divide(double a, double b, double c)
+    {
+        if (b == 0 || c == 0) throw new DivideByZeroException("Cant divide by zero");
+        return a / b / c;
+    }
+        static double divide(double a, double b)
+    {
+        if (b == 0) throw new DivideByZeroException("Cant divide by zero");
+        return a / b;
+    }
 
 
     class Kalkulator
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Would you like to- add:1, subtract:2, multiply:3 or divide:4?");
-            double inputI = Convert.ToDouble(Console.ReadLine());
+            Console.WriteLine("Would you like to- add: 1, subtract: 2, multiply: 3 or divide: 4");
+            string? inputI = Console.ReadLine();
 
-            Console.WriteLine("How many numbers are we Mathing today? Two: 1, Three: 2, Four: 3");
-            double inputII = Convert.ToDouble(Console.ReadLine());
-
-            Console.WriteLine("Input your first value");
-            double a = Convert.ToDouble(Console.ReadLine());
-
-            Console.WriteLine("Input your second value");
-            double b = Convert.ToDouble(Console.ReadLine());
-            
-            Console.WriteLine("Input your third value");
-            double c = Convert.ToDouble(Console.ReadLine());
-
-            Console.WriteLine("Input your fourth value");
-            double d = Convert.ToDouble(Console.ReadLine());
-
-            int a_int = (int)a;
-
-            int b_int = (int)b;
-
-            int c_int = (int)c;
-
-            int d_int = (int)d;
-
-            if (inputI == 1)
+            Console.WriteLine("How many numbers are we Mathing today? Please choose between 2 and 4");
+            int antall = int.Parse(Console.ReadLine());
+            if (antall < 2 || antall > 4)
             {
-                double sum = a + b;
-                Console.WriteLine("Result multiplication = " + sum);
+                Console.WriteLine("Please choose between the numbers 4 and 2");
+                return;
             }
 
-            if (inputI == 2)
+            double[] tall = new double[antall];
+            for (int i = 0; i < antall; i++)
             {
-                double sum = a - b;
-                Console.WriteLine("Result subtraction = " + sum);
-            }
-
-            if (inputI == 3)
-            {
-                double sum = a * b;
-                Console.WriteLine("Result multiplication = " + sum);
-            }
-
-            if (inputI == 4)
+                Console.WriteLine($"input your number {i + 1};");
+                while (!double.TryParse(Console.ReadLine(), out tall[i]))
                 {
-                    if (b == 0)
-                        Console.WriteLine("Cant divide by zero");
+                    Console.WriteLine("invalid input, try again");
                 }
-                    else
-                {
-                    double sum = a / b;
-                    Console.WriteLine("Result dividation(?) = " + sum);
-                }
+            }
+            double result = 0;
+            switch (inputI)
+            {
+                case "1":
+                    result = antall switch
+                    {
+                        2 => add(tall[0], tall[1]),
+                        3 => add(tall[0], tall[1], tall[2]),
+                        4 => add(tall[0], tall[1], tall[2], tall[3]),
+                        _ => 0
+                    };
+                    break;
+                case "2":
+                    result = antall switch
+                    {
+                        2 => subtract(tall[0], tall[1]),
+                        3 => subtract(tall[0], tall[1], tall[2]),
+                        4 => subtract(tall[0], tall[1], tall[2], tall[3]),
+                        _ => 0
+                    };
+                    break;
+                case "3":
+                    result = antall switch
+                    {
+                        2 => multiply(tall[0], tall[1]),
+                        3 => multiply(tall[0], tall[1], tall[2]),
+                        4 => multiply(tall[0], tall[1], tall[2], tall[3]),
+                        _ => 0
+                    };
+                    break;
+                case "4":
+                    result = antall switch
+                    {
+                        2 => divide(tall[0], tall[1]),
+                        3 => divide(tall[0], tall[1], tall[2]),
+                        4 => divide(tall[0], tall[1], tall[2], tall[3]),
+                        _ => 0
+                    };
+                    break;
 
-            if (inputII == 1)
-            {
-                Console.WriteLine("You are mathing two numbers: " + sum(a, b));
-            }
-            if (inputII == 2)
-            {
-                Console.WriteLine("You are mathing three numbers: " + sum(a, b, c));
-            }
-            if (inputII == 3)
-            {
-                Console.WriteLine ("You are mathing four numbers: " + sum(a, b, c, d));
+                default:
+                    Console.WriteLine("Illegal operation");
+                    return;
             }
 
-            
-            //Console.WriteLine(sum(a, b, c, d));
-            //Console.WriteLine(sum(a, b, c));
-            //Console.WriteLine(sum(a, b));
-            //Console.WriteLine(sum(a_int, b_int, c_int, d_int));
+            Console.WriteLine($"\nYour Result: {result}");
         }
     }
 }
